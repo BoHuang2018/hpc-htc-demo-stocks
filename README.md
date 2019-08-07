@@ -28,3 +28,4 @@ and Monte-Carlo (1000 simulation for each stock).
    money for used RAM of those machines. 
    
 ### Architecture and process of this reporsitory
+![architecture and process](https://github.com/BoHuang2018/hpc-htc-demo-stocks/blob/master/HPC-HTC-DEMO-STOCKS-archi.pdf)
