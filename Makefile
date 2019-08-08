@@ -48,7 +48,7 @@ else
 	-gsutil mb gs://${bucketname}
 	gsutil cp data/nasdaq_symbols_all.csv gs://${bucketname}/data/
 	gsutil cp model/* gs://${bucketname}/model/
-	gsutil cp htcondor/* gs://${bucketname}/htcondor/
+	gsutil cp *.py gs://${bucketname}/
 endif
 
 createcluster:
