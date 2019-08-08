@@ -1,5 +1,5 @@
 # hpc-htc-demo-stocks
-## A demo simulating thousands stocks with high-performance-computing cluster in high-throughput-computing structure
+### *A demo simulating thousands stocks with high-performance-computing cluster in high-throughput-computing structure*
 This repository presents a lightweight demo of HTCondor cluster on GCP (Google Cloud Platform). Such a cluster can be applied 
 to many fields' work. We do only stocks price simulation with random walk process and Monto-Carlo in this repository. 
 
@@ -29,4 +29,5 @@ and Monte-Carlo (1000 simulation for each stock).
    
 ### Architecture and process of this reporsitory
 ![architecture and process](https://github.com/BoHuang2018/hpc-htc-demo-stocks/blob/master/HPC-HTC-DEMO-STOCKS.png)
-The above image shows the architecture 
+The above image shows the architecture of the HTC-cluster and working process of this repository. Let's go through it block by block from left to right.
+
