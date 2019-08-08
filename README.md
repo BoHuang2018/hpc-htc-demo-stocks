@@ -8,7 +8,7 @@ This repository got expired by an example on High-throug from Google Cloud Solut
 which deploys a high-throughput-computing (htc) cluster with HTCondor and do simulation for four stocks (AMZN, GOOG, FB, NLFX) with random walk
 and Monte-Carlo (1000 simulation for each stock).
 
-###### To present the power of HTC-cluster on GCP, we did change on the following aspects:
+#### To present the power of HTC-cluster on GCP, we did change on the following aspects:
 
 1. Increase the subjects of simulation to thousands stocks (all companies listed on Nasdaq)
    The project would go through all companies listed on Nasdaq, the amount is around 8851. For each stock, it will do 1000 random-walk 
@@ -31,13 +31,13 @@ and Monte-Carlo (1000 simulation for each stock).
 ![architecture and process](https://github.com/BoHuang2018/hpc-htc-demo-stocks/blob/master/HPC-HTC-DEMO-STOCKS.png)
 The above image shows the architecture of the HTC-cluster and working process of this repository. Let's go through it block by block from left to right. 
 
-###### Prepare Storage Bucket and VM-images
+#### Prepare Storage Bucket and VM-images
 For simplicity, we store all relevant code and files in Cloud Storage. It facilitates invoke the whole project and running code across machines connected to Internet. For saving money, we would build reusable virtual machines images and leave them on Google Cloud Platform. Then it would be very easy to create the HTC-cluster when we need it, and destroy it after the work to stop money counting. We would create three images for condor-master, condor-submit and condor-compute respectively. 
 
-###### Deployment HTCondor-cluster
+#### Deployment HTCondor-cluster
 With the prepared virtual machine images, make-file, yaml-files and .sh files, the cluster can be created by one command. The cluster consists of one central manager machine (condor-master), one submiter machine (condor-submit) and several worker machines (condor-compute). What the manager machine would do is invisible and out of our operation. Once we trigger the cluster with a sequence of jobs, the submiter machine would distribute the jobs to worker machines and the manager would cover the scheduling things. If some of the workers are stuck or lie down, the relevant jobs will be rescheduled to other machines by the manager machine.
 
-###### Model work in each condor-compute
+#### Model work in each condor-compute
 This block is independent of the HTC-cluster, i.e. we can put other models in this block to apply the cluster to other task. At last, we upload the simulation results to Cloud Storage waiting for further process. 
 
 ### Step by step implementation 
@@ -50,7 +50,16 @@ We highly recommanded to use GCP's Cloud Shell with Linux-Ubuntu as your platfor
 
 In the following content, it assumes that we work on the Cloud Shell.
 
-#### 1. Migrate the files to Cloud Shell 
+#### 1. Migrate the files to Cloud Shell
+    1. Grab the whole project from GitHub 
+       user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git
+    
+    2. Move into this repository's folder, we will run some 'make'-command
+       user_name@cloudshell:~ (your project)$ cd hpc-htc-demo-stocks
+    
+    3. 
+
+
 
 
 

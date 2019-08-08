@@ -55,7 +55,7 @@ def generate_condor_sh_file(start_date, end_date):
         trp.write('./randomwalk_process.py --stock_symbols_file ${stockfile} --start_date %s --end_date %s ' 
                   '--stock_symbol ${stock} --HTCondor_env 1 > ${stock}.csv \n' % (start_date, end_date))
         trp.write('CLOUDSDK_PYTHON=/usr/bin/python '
-                  'gsutil cp ${stock}.csv gs://hpc-htc-stocks/stock_simulations_based_on_%s_%s/'
+                  'gsutil cp ${stock}.csv gs://hpc-htc-demo-stocks/stock_simulations_based_on_%s_%s/'
                   % (start_date, end_date))
     return True
 
@@ -67,7 +67,7 @@ def finished_jobs_counter():
     :param total_amount: Int. We use the value of queue in funciton generate_condor_submit_trigger_text()
     :return:
     """
-    return subprocess.check_output("gsutil du gs://hpc-htc-stocks/output_single_stock/ | wc -l", shell=True)
+    return subprocess.check_output("gsutil du gs://hpc-htc-demo-stocks/output_single_stock/ | wc -l", shell=True)
 '''
 
 
@@ -91,7 +91,7 @@ def main():
     finished_jobs = 0
     while finished_jobs < the_queue:
         finished_jobs = \
-            int(subprocess.check_output("gsutil du gs://hpc-htc-stocks/stock_simulations_based_on_%s_%s/ | wc -l"
+            int(subprocess.check_output("gsutil du gs://hpc-htc-demo-stocks/stock_simulations_based_on_%s_%s/ | wc -l"
                                         % (args.start_date, args.end_date), shell=True))
         time.sleep(0.5)
     condor_end_time = time.time()

@@ -72,6 +72,8 @@ else
 	gcloud compute ssh condor-submit --command "gsutil cp gs://${bucketname}/model/* ." --zone us-east1-b
 	@echo "  - copying the datafiles"
 	gcloud compute ssh condor-submit --command "gsutil cp gs://${bucketname}/data/* ./" --zone us-east1-b
+	@echo "  - copying the entrance python file: script_generator_runner.py"
+	gcloud compute ssh condor-submit --command "gsutil cp gs://${bucketname}/script_generator_runner.py ." --zone us-east1-b
 	@echo "now just sshing"
 endif
 
