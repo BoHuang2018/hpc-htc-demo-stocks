@@ -1,4 +1,5 @@
 # hpc-htc-demo-stocks
+## A demo simulating thousands stocks with high-performance-computing cluster in high-throughput-computing structure
 This repository presents a lightweight demo of HTCondor cluster on GCP (Google Cloud Platform). Such a cluster can be applied 
 to many fields' work. We do only stocks price simulation with random walk process and Monto-Carlo in this repository. 
 
@@ -22,9 +23,9 @@ and Monte-Carlo (1000 simulation for each stock).
 
 3. Size of the cluster is adjustable
    The original example fixes size of the HTC-cluster as six virtual machines: one central manager, one jobs submiter and four workers. 
+   In this example, users can set number of the machines. Though, please estimate cost of the machines. For example, I used 400 predefined n1-standard-1 virtual machines and 400 preemptible n1-standard-1 virtual machines. The cluster took around 3 minutes to do simulation for all 8851 companies listed on Nasdaq, current price for 
    In this example, users can set number of the machines. Though, please estimate cost of the machines. For example, I used 400 n1-standard-1 
-   virtual machines. The cluster took around 3 minutes to do simulation for all 8851 companies listed on Nasdaq, current price for 
-   n1-standard-1 is 0.0475$ per machine per hour, then cost for the 3 minutes work was 0.95$ (3*400/60*0.0475), in addition, it counted
+   n1-standard-1 is 0.0475$ and 0.01$ per machine per hour for predefined and preemptible respectively, then cost for the 3 minutes work was 1.15$ (= 3 x 400 / 60 x 0.0475), in addition, it costed
    money for used RAM of those machines. 
    
 ### Architecture and process of this reporsitory
