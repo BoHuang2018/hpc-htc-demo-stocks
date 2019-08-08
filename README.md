@@ -51,14 +51,132 @@ We highly recommanded to use GCP's Cloud Shell with Linux-Ubuntu as your platfor
 In the following content, it assumes that we work on the Cloud Shell.
 
 #### 1. Migrate the files to Cloud Shell
-    1. Grab the whole project from GitHub 
+    1. Grab the whole project from GitHub : 
+    
        user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git
     
-    2. Move into this repository's folder, we will run some 'make'-command
+    2. Move into this repository's folder, we will run some 'make'-command :
+    
        user_name@cloudshell:~ (your project)$ cd hpc-htc-demo-stocks
     
-    3. 
+    3. Build bucket in Cloud Storage and store files :
+    
+       user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make upload bucketname=hpc-htc-demo-stocks
+       
+       The above command involves line 41~52 in Makefile. Let's go through the key commands in that block
+       
+       1. gsutil mb gs://${bucketname}  # make a bucket with the given name in Cloud Storage
+       
+       2. gsutil cp source-path gs://destination-path  # copy the files to the bucket 
+       
+       Note: 'hpc-htc-demo-stocks' is a fixed name in this repository, type-error leads to other errors.
+   
+#### 2. Build Virtual Machine Images and create cluster
+    The process to build images is : create instance (virtual machines) --> stop instance --> create image --> delete instance
+    
+    In the Makefile, the above process is involved by line 8~32. Let's look at some key points:
+    
+    1. --image debian-9-stretch-v20190729
+       
+       We use the newest verison of debian-9, because the old versions (2018) does not support the package 'pandas_datareader' which
+       would be used to grab historical data from Yahoo.
+    
+    2. --metadata-from-file startup-script=startup-scripts/$@.sh
+       
+       This uses the startup-files to drive vitual machine to do something once it boots up. In this case, every time we create
+       the HTC-cluster, all vitural machines of the cluster will do something. For example, in the file /startup-scripts/condor-compute.sh,
+       we can see 
+       
+       1. sudo apt install python3-pip -y  # install pip 
+       2. pip3 install pandas-datareader   # install package pandas-datareader 
+    
+    3. This block would be gone through three times, because we need to build images for central manager machine (condor-master),
+       
+       submitter machine (condor-submit) and worker machine (condor-compute) individually. 
+       
+    4. After the images are ready, we can create the HTC-cluster by this command :
+       
+       user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make createcluster
+       
+       We can see what stay behind is the .jinja files and .yaml files in /deplaymentmanager. The files are using the rules of Google's 
+       
+       Cloud Deployment Manager. 
+    
+    Note the "properties" in the .yaml file (condor-cluster.yaml), we can increase the number of "count" (number of predefined virtual machines)
+    and "pvmcount" (number of preemptible virtual machines) to hundreds and even thousands. Please estimate the
+    cost before you use those big numbers. 
+    
+    Now we use 12 as 'count' and 20 as 'pvmcount', and the 'instancetype' is 'n1-standard-4'. 
+    
+    It says we will use 12 predefinded virtual machines and 20 preemptible virtual machines in the type of n1-standard-4. 
+    
+    The total number of virtual machines would be 34, because we need one for condor-master and one for condor-submit.
+    
 
+#### 3. Let the HTC-cluster work for you.     
+
+    Now your high-throughput-computing cluster is ready, it's time to run it. 
+    
+    To get more intuitive control, you can load to the condor-submit's terminal by this command
+    
+        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b
+    
+    Then the terminal would become like this:
+    
+        user_name@condor-submit:~$ 
+    
+    Let's write 'exit' and come back to our Cloud Shell's terminal:
+        
+        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$
+        
+    As we have mentioned above, we need to trigger the condor-submit, then it would submit the long sequence of simulation 
+    jobs to the condor-compute machines. Before we trigger it, we need to transport the necessary files from Storage to 
+    condor-submit's disk: 
+        
+        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make ssh bucketname=hpc-htc-demo-stocks
+        
+    Then we can trigger the condor-submit:
+    
+        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b --command "python3 script_generator_runner.py --start_date=2017-06-01 --end_date=2019-06-01"
+    
+    In the above line, we choose the historical stock prices from 2017-06-01 to 2019-06-01. 
+    
+    Then, the terminal would print like 
+    
+        Submitting job(s)..........
+        
+    There will be many '.' because there is a long sequence jobs what condor-submit needs to submit. 
+    
+    After a while, the terminal print something about the jobs are finished and tell the total time consuming. 
+    
+    And in your Storage's bucket, gs://hpc-htc-demo-stocks, there finds a new folder named as 
+    'stock_simulation_based_on_2017-06-01_2019_06_01', which includes .csv files storing the simulation results. 
+    
+   
+    
+#### 4. Look into the condor-submit:
+    If you are curious about what condor-submit do, you can load back to the condor-submit's terminal:
+        
+        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b
+        
+    And use the HTCondor's function 'condor_q':
+        
+        user_name@condor-submit:~$ condor_q
+    
+    Then it would list all jobs, tell you how many has be done, how many is on hold, and so on.
+    
+    At the same time, there would finds files named like 'err.1' ... 'err.8800' ... 'out.', 'run.' which 
+    would be very useful if you want to see more detailed info. 
+    
+
+#### The last point:
+
+    In the folder /htcondor/*, the files are not used in this case. Yes, we need two files like them to trigger the cluster.
+    Once you trigger the condor-submit by "python3 script_generator_runner.py ...", the python file will generate two similar
+    files at real time, and make the cluster work. 
+        
+            
+          
 
 
 
