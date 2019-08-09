@@ -47,7 +47,7 @@ Now let's implement this repository step by step.
 #### 0. Before you start
 Because we will deploy the HTC-cluster on GCP, please make sure that you have created project and enabled billing on Google Cloud Platform. 
 
-We highly recommend to use GCP's Cloud Shell with Linux as your platform. Because we have wrappered many command-line operation in Make file, OSX is not a good choise. Please install Cloud-SDK into your own Linux system if you would not use GCP's Cloud Shell. 
+We highly recommend to use GCP's Cloud Shell with Linux as your platform. Because we have wrappered many command-line operations in Make file, OSX is not a good choise. Please install Cloud-SDK into your own Linux system if you would not use GCP's Cloud Shell. 
 
 In the following content, it assumes that we work on the Cloud Shell.
 
@@ -60,7 +60,7 @@ In the following content, it assumes that we work on the Cloud Shell.
     
        user_name@cloudshell:~ (your project)$ cd hpc-htc-demo-stocks
     
-    3. Build bucket in Cloud Storage and store files :
+    3. *Build bucket in Cloud Storage and store files :*
     
        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make upload bucketname=hpc-htc-demo-stocks
        
