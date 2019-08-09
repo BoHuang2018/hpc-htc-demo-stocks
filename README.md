@@ -54,15 +54,15 @@ In the following content, it assumes that we work on the Cloud Shell.
 #### 1. Migrate the files to Cloud Shell
     1. Grab the whole project from GitHub : 
     
-       user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git
+       **user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git**
     
     2. Move into this repository's folder, we will run some 'make'-command :
     
-       user_name@cloudshell:~ (your project)$ cd hpc-htc-demo-stocks
+      **user_name@cloudshell:~ (your project)$ cd hpc-htc-demo-stocks**
     
     3. Build bucket in Cloud Storage and store files :
     
-       user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make upload bucketname=hpc-htc-demo-stocks
+      **user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make upload bucketname=hpc-htc-demo-stocks**
        
    The third command involves line 41~52 in Makefile. Let's go through the key commands in that block
    1. gsutil mb gs://${bucketname}  # make a bucket with the given name in Cloud Storage
@@ -74,7 +74,7 @@ In the following content, it assumes that we work on the Cloud Shell.
     The process to build images is : create instance (virtual machines) --> stop instance --> create image --> delete instance
     The whole process can be done by the following command: 
         
-        user_name@cloudshell:~ (your project)$ git make createimages
+        **user_name@cloudshell:~ (your project)$ git make createimages**
     
 The above simple command calls line 8~32 in Makefile. Let's look at some key points:
 
@@ -97,7 +97,7 @@ The above simple command calls line 8~32 in Makefile. Let's look at some key poi
        
    After the images are ready, we can create the HTC-cluster by this command :
        
-       user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make createcluster
+       **user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make createcluster**
        
    We can see what stay behind is the .jinja files and .yaml files in /deplaymentmanager. The files are using the Google's Cloud Deployment Manager. 
     
@@ -116,7 +116,7 @@ The total number of virtual machines would be 34, because we need one for condor
     
     To get more intuitive control, you can load to the condor-submit's terminal by this command
     
-        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b
+        **user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b**
     
     Then the terminal would become like this:
     
@@ -130,11 +130,11 @@ The total number of virtual machines would be 34, because we need one for condor
     jobs to the condor-compute machines. Before we trigger it, we need to transport the necessary files from Storage to 
     condor-submit's disk: 
         
-        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make ssh bucketname=hpc-htc-demo-stocks
+        **user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make ssh bucketname=hpc-htc-demo-stocks**
         
     Then we can trigger the condor-submit:
     
-        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b --command "python3 script_generator_runner.py --start_date=2017-06-01 --end_date=2019-06-01"
+        **user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b --command "python3 script_generator_runner.py --start_date=2017-06-01 --end_date=2019-06-01"**
     
     In the above line, we choose the historical stock prices from 2017-06-01 to 2019-06-01. The terminal would print like 
     
@@ -174,7 +174,7 @@ be heavy because the cluster using 34 virtual machines.
     1. Delete the whole project on the GCP 
     2. Destroy the HTC-cluster and delete the bucket in Cloud Storage (the bucket is not expensive) by GCP console 
        To destroy the cluster :
-          user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make destroycluster
+          **user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make destroycluster**
 
 
 The End.       
