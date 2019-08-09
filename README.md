@@ -64,34 +64,37 @@ In the following content, it assumes that we work on the Cloud Shell.
     
        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make upload bucketname=hpc-htc-demo-stocks
        
-       The above command involves line 41~52 in Makefile. Let's go through the key commands in that block
-       1. gsutil mb gs://${bucketname}  # make a bucket with the given name in Cloud Storage
-       2. gsutil cp source-path gs://destination-path  # copy the files to the bucket 
-       
-       Note: 'hpc-htc-demo-stocks' is a fixed name in this repository, type-error leads to other errors.
+   The third command involves line 41~52 in Makefile. Let's go through the key commands in that block
+   1. gsutil mb gs://${bucketname}  # make a bucket with the given name in Cloud Storage
+   2. gsutil cp source-path gs://destination-path  # copy the files to the bucket 
+   
+   Note: 'hpc-htc-demo-stocks' is a fixed name in this repository, type-error leads to other errors.
    
 #### 2. Build Virtual Machine Images and create cluster
     The process to build images is : create instance (virtual machines) --> stop instance --> create image --> delete instance
+    The whole process can be done by the following command: 
+        
+        user_name@cloudshell:~ (your project)$ git make createimages
     
-    In the Makefile, the above process is involved by line 8~32. Let's look at some key points:
-    
-    1. --image debian-9-stretch-v20190729
-       
-       We use the newest verison of debian-9, because the old versions (2018) does not support the package 'pandas_datareader' which
-       would be used to grab historical data from Yahoo.
-    
-    2. --metadata-from-file startup-script=startup-scripts/$@.sh
-       
-       This uses the startup-files to drive vitual machine to do something once it boots up. In this case, every time we create
-       the HTC-cluster, all vitural machines of the cluster will do something. For example, in the file /startup-scripts/condor-compute.sh,
-       we can see 
-       
-       1. sudo apt install python3-pip -y  # install pip 
-       2. pip3 install pandas-datareader   # install package pandas-datareader 
-    
-    3. This block would be gone through three times, because we need to build images for central manager machine (condor-master),
-       
-       submitter machine (condor-submit) and worker machine (condor-compute) individually. 
+The above simple command calls line 8~32 in Makefile. Let's look at some key points:
+
+1. --image debian-9-stretch-v20190729
+   
+   We use the newest verison of debian-9, because the old versions (2018) does not support the package 'pandas_datareader' which
+   would be used to grab historical data from Yahoo.
+
+2. --metadata-from-file startup-script=startup-scripts/$@.sh
+   
+   This uses the startup-files to drive vitual machine to do something once it boots up. In this case, every time we create
+   the HTC-cluster, all vitural machines of the cluster will do something. For example, in the file /startup-scripts/condor-compute.sh,
+   we can see 
+   
+   1. sudo apt install python3-pip -y  # install pip 
+   2. pip3 install pandas-datareader   # install package pandas-datareader 
+
+3. This block would be gone through three times, because we need to build images for central manager machine (condor-master),
+   
+   submitter machine (condor-submit) and worker machine (condor-compute) individually. 
        
     4. After the images are ready, we can create the HTC-cluster by this command :
        
