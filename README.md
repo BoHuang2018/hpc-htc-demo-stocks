@@ -116,7 +116,7 @@ Now your high-throughput-computing cluster is ready, it's time to run it.
 
 To get more intuitive control, you can load to the condor-submit's terminal by this command
 
-   > user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b
+   user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b
 
 Then the terminal would become like this:
 
