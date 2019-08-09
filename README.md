@@ -41,13 +41,13 @@ With the prepared virtual machine images, make-file, yaml-files and .sh files, t
 This block is independent of the HTC-cluster, i.e. we can put other models in this block to apply the cluster to other task. At last, we upload the simulation results to Cloud Storage waiting for further process. 
 
 
-### Step by step implementation 
+### Step by Step Implementation 
 Now let's implement this repository step by step. 
 
 #### 0. Before you start
 Because we will deploy the HTC-cluster on GCP, please make sure that you have created project and enabled billing on Google Cloud Platform. 
 
-We highly recommanded to use GCP's Cloud Shell with Linux-Ubuntu as your platform. Because we have wrappered many command-line operation in Make file, OSX is not a good choise. Please install Cloud-SDK into your own Linux system if you would not use GCP's Cloud Shell. 
+We highly recommend to use GCP's Cloud Shell with Linux as your platform. Because we have wrappered many command-line operation in Make file, OSX is not a good choise. Please install Cloud-SDK into your own Linux system if you would not use GCP's Cloud Shell. 
 
 In the following content, it assumes that we work on the Cloud Shell.
 
