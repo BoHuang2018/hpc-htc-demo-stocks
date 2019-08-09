@@ -42,7 +42,7 @@ This block is independent of the HTC-cluster, i.e. we can put other models in th
 
 
 ### Step by Step Implementation 
-Now let's implement this repository step by step. 
+Now let's implement this repository step by step. The line in **bold** is what we put in the Cloud Shell's terminal. 
 
 #### 0. Before you start
 Because we will deploy the HTC-cluster on GCP, please make sure that you have created project and enabled billing on Google Cloud Platform. 
