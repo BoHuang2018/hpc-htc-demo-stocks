@@ -174,7 +174,7 @@ be heavy because the cluster using 34 virtual machines.
     1. Delete the whole project on the GCP 
     2. Destroy the HTC-cluster and delete the bucket in Cloud Storage (the bucket is not expensive) by GCP console 
        To destroy the cluster :
-          user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b
+          user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make destroycluster
 
 
 The End.       
