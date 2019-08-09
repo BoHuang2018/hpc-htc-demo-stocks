@@ -1,5 +1,5 @@
 # hpc-htc-demo-stocks
-### *A demo using high-performance-computing in high-throughput-computing *
+### **A demo using high-performance-computing in high-throughput-computing **
 This repository presents a lightweight demo of HTCondor cluster on GCP (Google Cloud Platform). Such a cluster can be applied 
 to many fields' work. We do only stocks price simulation with random walk process and Monto-Carlo in this repository. 
 
