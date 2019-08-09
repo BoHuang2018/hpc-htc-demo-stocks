@@ -74,7 +74,7 @@ In the following content, it assumes that we work on the Cloud Shell.
 The process to build images is : create instance (virtual machines) --> stop instance --> create image --> delete instance
 The whole process can be done by the following command: 
     
-   > user_name@cloudshell:~ (your project)$ git make createimages
+   > user_name@cloudshell:~ (your project)$ make createimages
     
 The above simple command calls line 8~32 in Makefile. Let's look at some key points:
 
