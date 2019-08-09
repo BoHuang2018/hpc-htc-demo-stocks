@@ -99,16 +99,14 @@ The above simple command calls line 8~32 in Makefile. Let's look at some key poi
        
        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make createcluster
        
-   We can see what stay behind is the .jinja files and .yaml files in /deplaymentmanager. The files are using the rules of Google's Cloud Deployment Manager. 
+   We can see what stay behind is the .jinja files and .yaml files in /deplaymentmanager. The files are using the Google's Cloud Deployment Manager. 
     
 Note the "properties" in the .yaml file (condor-cluster.yaml), we can increase the number of "count" (number of predefined virtual machines)
 and "pvmcount" (number of preemptible virtual machines) to hundreds and even thousands. Please estimate the
 cost before you use those big numbers. 
 
 Now we use 12 as 'count' and 20 as 'pvmcount', and the 'instancetype' is 'n1-standard-4'. 
-
 It says we will use 12 predefinded virtual machines and 20 preemptible virtual machines in the type of n1-standard-4. 
-
 The total number of virtual machines would be 34, because we need one for condor-master and one for condor-submit.
     
 
