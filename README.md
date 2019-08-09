@@ -60,14 +60,12 @@ In the following content, it assumes that we work on the Cloud Shell.
     
        user_name@cloudshell:~ (your project)$ cd hpc-htc-demo-stocks
     
-    3. *Build bucket in Cloud Storage and store files :*
+    3. Build bucket in Cloud Storage and store files :
     
        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make upload bucketname=hpc-htc-demo-stocks
        
        The above command involves line 41~52 in Makefile. Let's go through the key commands in that block
-       
        1. gsutil mb gs://${bucketname}  # make a bucket with the given name in Cloud Storage
-       
        2. gsutil cp source-path gs://destination-path  # copy the files to the bucket 
        
        Note: 'hpc-htc-demo-stocks' is a fixed name in this repository, type-error leads to other errors.
