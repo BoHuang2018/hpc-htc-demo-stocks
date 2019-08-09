@@ -42,7 +42,7 @@ This block is independent of the HTC-cluster, i.e. we can put other models in th
 
 
 ### Step by Step Implementation 
-Now let's implement this repository step by step. The blocks in shadow is what we will do with the Cloud Shell's terminal. 
+Now let's implement this repository step by step. The blocks in gray is what we will do with the Cloud Shell's terminal. 
 
 #### 0. Before you start
 Because we will deploy the HTC-cluster on GCP, please make sure that you have created project and enabled billing on Google Cloud Platform. 
@@ -112,55 +112,55 @@ The total number of virtual machines would be 34, because we need one for condor
 
 #### 3. Let the HTC-cluster work for you.     
 
-    Now your high-throughput-computing cluster is ready, it's time to run it. 
+Now your high-throughput-computing cluster is ready, it's time to run it. 
+
+To get more intuitive control, you can load to the condor-submit's terminal by this command
+
+   > user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b
+
+Then the terminal would become like this:
+
+   user_name@condor-submit:~$ 
+
+Let's write 'exit' and come back to our Cloud Shell's terminal:
     
-    To get more intuitive control, you can load to the condor-submit's terminal by this command
+   user_name@cloudshell:~/hpc-htc-demo-stocks (project)$
     
-        **user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b**
+As we have mentioned above, we need to trigger the condor-submit, then it would submit the long sequence of simulation 
+jobs to the condor-compute machines. Before we trigger it, we need to transport the necessary files from Storage to 
+condor-submit's disk: 
     
-    Then the terminal would become like this:
+   > user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make ssh bucketname=hpc-htc-demo-stocks
     
-        user_name@condor-submit:~$ 
+Then we can trigger the condor-submit:
+
+   > user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b --command "python3 script_generator_runner.py --start_date=2017-06-01 --end_date=2019-06-01"
+
+In the above line, we choose the historical stock prices from 2017-06-01 to 2019-06-01. The terminal would print like 
+
+   Submitting job(s)..........
     
-    Let's write 'exit' and come back to our Cloud Shell's terminal:
-        
-        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$
-        
-    As we have mentioned above, we need to trigger the condor-submit, then it would submit the long sequence of simulation 
-    jobs to the condor-compute machines. Before we trigger it, we need to transport the necessary files from Storage to 
-    condor-submit's disk: 
-        
-        **user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make ssh bucketname=hpc-htc-demo-stocks**
-        
-    Then we can trigger the condor-submit:
-    
-        **user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b --command "python3 script_generator_runner.py --start_date=2017-06-01 --end_date=2019-06-01"**
-    
-    In the above line, we choose the historical stock prices from 2017-06-01 to 2019-06-01. The terminal would print like 
-    
-        Submitting job(s)..........
-        
-    There will be many '.' because there is a long sequence jobs what condor-submit needs to submit. 
-    After a while, the terminal print something about the jobs are finished and tell the total time consuming. 
-    
-    In your Storage's bucket, gs://hpc-htc-demo-stocks, there finds a new folder named as 
-    'stock_simulation_based_on_2017-06-01_2019_06_01', which includes .csv files storing the simulation results. 
-    
+There will be many '.' because there is a long sequence jobs what condor-submit needs to submit. 
+After a while, the terminal print something about the jobs are finished and tell the total time consuming. 
+
+In your Storage's bucket, gs://hpc-htc-demo-stocks, there finds a new folder named as 
+'stock_simulation_based_on_2017-06-01_2019_06_01', which includes .csv files storing the simulation results. 
+
    
     
 #### 4. Look into the condor-submit:
-    If you are curious about what condor-submit do, you can load back to the condor-submit's terminal:
-        
-        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b
-        
-    And use the HTCondor's function 'condor_q':
-        
-        user_name@condor-submit:~$ condor_q
+If you are curious about what condor-submit do, you can load back to the condor-submit's terminal:
     
-    Then it would list all jobs, tell you how many has be done, how many is on hold, and so on.
+   user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b
     
-    At the same time, there would finds files named like 'err.1' ... 'err.8800' ... 'out.', 'run.' which 
-    would be very useful if you want to see more detailed info. 
+And use the HTCondor's function 'condor_q':
+    
+   user_name@condor-submit:~$ condor_q
+
+Then it would list all jobs, tell you how many has be done, how many is on hold, and so on.
+
+At the same time, there would finds files named like 'err.1' ... 'err.8800' ... 'out.', 'run.' which 
+would be very useful if you want to see more detailed info. 
     
 In the folder /htcondor/*, the files are not used in this case. Yes, we need two files like them to trigger the cluster.
 Once you trigger the condor-submit by "python3 script_generator_runner.py ...", the python file will generate two similar
@@ -170,11 +170,11 @@ files at real time, and make the cluster work.
 Please remember to delete all resource on GCP if you would not use the HTC-cluster for a while, or the billing from GCP will 
 be heavy because the cluster using 34 virtual machines. 
     
-    There are two ways to clean up
-    1. Delete the whole project on the GCP 
-    2. Destroy the HTC-cluster and delete the bucket in Cloud Storage (the bucket is not expensive) by GCP console 
-       To destroy the cluster :
-          **user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make destroycluster**
+There are two ways to clean up
+1. Delete the whole project on the GCP 
+2. Destroy the HTC-cluster and delete the bucket in Cloud Storage (the bucket is not expensive) by GCP console 
+   To destroy the cluster :
+     > user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make destroycluster
 
 
 The End.       
