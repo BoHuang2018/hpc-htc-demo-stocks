@@ -31,13 +31,13 @@ and Monte-Carlo (1000 simulations for each stock).
 ![architecture and process](https://github.com/BoHuang2018/hpc-htc-demo-stocks/blob/master/HPC-HTC-DEMO-STOCKS.png)
 The above image shows the architecture of the HTC-cluster and its working process. Let's go through it block by block from left to right. 
 
-#### Prepare Storage Bucket and VM-images
+##### Prepare Storage Bucket and VM-images
 For simplicity, we store all relevant code and files in Cloud Storage. It facilitates invoking the whole project across machines connected to Internet. We would build reusable virtual machines images and leave them on Google Cloud Platform. It would be very easy to create the HTC-cluster when we need it, and destroy it after the work to stop money counting. We would create three images for condor-master, condor-submit and condor-compute respectively. 
 
-#### Deployment HTCondor-cluster
+##### Deployment HTCondor-cluster
 With the prepared virtual machine images, make-file, yaml-files and .sh files, the cluster can be created by one line of command. The cluster consists of one central manager machine (condor-master), one submiter machine (condor-submit) and several worker machines (condor-compute). What the manager machine would do is invisible and out of our operation. Once we trigger the cluster with a sequence of jobs, the submiter machine would distribute the jobs to worker machines and the manager would cover the scheduling things. If some of the workers are stuck or lie down, the relevant jobs will be rescheduled to other workers by the manager machine.
 
-#### Model work in each condor-compute
+##### Model work in each condor-compute
 This block is independent of the HTC-cluster, i.e. we can put other models in this block to apply the cluster to other task. At last, we upload the simulation results to Cloud Storage waiting for further process. 
 
 
