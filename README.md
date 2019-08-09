@@ -78,41 +78,38 @@ In the following content, it assumes that we work on the Cloud Shell.
     
 The above simple command calls line 8~32 in Makefile. Let's look at some key points:
 
-1. --image debian-9-stretch-v20190729
-   
-   We use the newest verison of debian-9, because the old versions (2018) does not support the package 'pandas_datareader' which
-   would be used to grab historical data from Yahoo.
-
-2. --metadata-from-file startup-script=startup-scripts/$@.sh
-   
-   This uses the startup-files to drive vitual machine to do something once it boots up. In this case, every time we create
-   the HTC-cluster, all vitural machines of the cluster will do something. For example, in the file /startup-scripts/condor-compute.sh,
-   we can see 
-   
-   1. sudo apt install python3-pip -y  # install pip 
-   2. pip3 install pandas-datareader   # install package pandas-datareader 
-
-3. This block would be gone through three times, because we need to build images for central manager machine (condor-master),
-   
-   submitter machine (condor-submit) and worker machine (condor-compute) individually. 
+    1. --image debian-9-stretch-v20190729
        
-    4. After the images are ready, we can create the HTC-cluster by this command :
+       We use the newest verison of debian-9, because the old versions (2018) does not support the package 'pandas_datareader' which
+       would be used to grab historical data from Yahoo.
+    
+    2. --metadata-from-file startup-script=startup-scripts/$@.sh
+       
+       This uses the startup-files to drive vitual machine to do something once it boots up. In this case, every time we create
+       the HTC-cluster, all vitural machines of the cluster will do something. For example, in the file /startup-scripts/condor-compute.sh,
+       we can see 
+       
+       1. sudo apt install python3-pip -y  # install pip 
+       2. pip3 install pandas-datareader   # install package pandas-datareader 
+    
+    3. This block would be gone through three times, because we need to build images for central manager machine (condor-master),
+       submitter machine (condor-submit) and worker machine (condor-compute) individually. 
+       
+   After the images are ready, we can create the HTC-cluster by this command :
        
        user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make createcluster
        
-       We can see what stay behind is the .jinja files and .yaml files in /deplaymentmanager. The files are using the rules of Google's 
-       
-       Cloud Deployment Manager. 
+   We can see what stay behind is the .jinja files and .yaml files in /deplaymentmanager. The files are using the rules of Google's Cloud Deployment Manager. 
     
-    Note the "properties" in the .yaml file (condor-cluster.yaml), we can increase the number of "count" (number of predefined virtual machines)
-    and "pvmcount" (number of preemptible virtual machines) to hundreds and even thousands. Please estimate the
-    cost before you use those big numbers. 
-    
-    Now we use 12 as 'count' and 20 as 'pvmcount', and the 'instancetype' is 'n1-standard-4'. 
-    
-    It says we will use 12 predefinded virtual machines and 20 preemptible virtual machines in the type of n1-standard-4. 
-    
-    The total number of virtual machines would be 34, because we need one for condor-master and one for condor-submit.
+Note the "properties" in the .yaml file (condor-cluster.yaml), we can increase the number of "count" (number of predefined virtual machines)
+and "pvmcount" (number of preemptible virtual machines) to hundreds and even thousands. Please estimate the
+cost before you use those big numbers. 
+
+Now we use 12 as 'count' and 20 as 'pvmcount', and the 'instancetype' is 'n1-standard-4'. 
+
+It says we will use 12 predefinded virtual machines and 20 preemptible virtual machines in the type of n1-standard-4. 
+
+The total number of virtual machines would be 34, because we need one for condor-master and one for condor-submit.
     
 
 #### 3. Let the HTC-cluster work for you.     
