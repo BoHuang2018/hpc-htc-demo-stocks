@@ -15,7 +15,7 @@
 # htcondor submit script for runrandom
 executable              = task_randomwalk_process.sh
 arguments               = $(Process)
-transfer_input_files    = randomwalk_process.py,nasdaq_symbols_all.csv
+transfer_input_files    = randomwalk_process.py,nasdaq_symbols_in_rows.csv
 should_transfer_files   = IF_NEEDED
 Transfer_Output_Files   = ""
 when_to_transfer_output = ON_EXIT

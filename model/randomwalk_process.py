@@ -163,7 +163,7 @@ class DataModel(object):
         :return: True
         """
         marketd = self._raw_data
-        # d
+        #
         # calculate the compound annual growth rate (CAGR) which will give us
         # our mean return input (mu)
         #
@@ -248,8 +248,6 @@ class DataModel(object):
         else:
             print("Not access to historical price for {} between {} and {}, "
                   "please check Yahoo Finance manually".format(self.company, self.start_date, self.end_date))
-            # raise KeyboardInterrupt
-            # return "Not access to historical price for {}, please check Yahoo Finance manually".format(self.company)
             sys.exit(1)
         return True
 
@@ -268,8 +266,6 @@ def _parse_args():
                         help="the start date of historical time interval")
     parser.add_argument('--end_date', type=str, default='2019-01-01',
                         help='the end date of historical time interval')
-    # parser.add_argument('--number_of_stocks', type=int, default=None,
-    #                     help="would be edited, hint: top returns")
     parser.add_argument('--stock_symbols_file', help='path to csv file involving stock symbols')
     parser.add_argument('--stock_symbol', type=str, help="symbol of a stock")
     parser.add_argument('--HTCondor_env', type=int, help="in HTCondor environment or not.")
@@ -282,7 +278,6 @@ def main():
     args = _parse_args()
     data_model = DataModel(start_date=args.start_date,
                            end_date=args.end_date,
-                           # company_numbers=args.number_of_stocks,
                            companies_symbols_file=args.stock_symbols_file,
                            company_symbol=args.stock_symbol,
                            HTCondor_environment=args.HTCondor_env)
