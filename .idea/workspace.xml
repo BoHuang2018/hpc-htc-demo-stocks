@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="11246dee-b57e-4731-b541-d10dfcf0c78c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htcondor/htcondor-submit-tasks" beforeDir="false" afterPath="$PROJECT_DIR$/htcondor/htcondor-submit-tasks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/randomwalk_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/randomwalk_process.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script_generator_runner.py" beforeDir="false" afterPath="$PROJECT_DIR$/script_generator_runner.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +26,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/script_generator_runner.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="934">
-                  <caret line="80" column="43" lean-forward="true" selection-start-line="80" selection-start-column="43" selection-end-line="80" selection-end-column="43" />
+                <state relative-caret-position="371">
+                  <caret line="80" column="43" selection-start-line="80" selection-start-column="43" selection-end-line="80" selection-end-column="43" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                   </folding>
@@ -288,9 +285,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1217601" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16033755" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -495,8 +491,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/script_generator_runner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="934">
-          <caret line="80" column="43" lean-forward="true" selection-start-line="80" selection-start-column="43" selection-end-line="80" selection-end-column="43" />
+        <state relative-caret-position="371">
+          <caret line="80" column="43" selection-start-line="80" selection-start-column="43" selection-end-line="80" selection-end-column="43" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
