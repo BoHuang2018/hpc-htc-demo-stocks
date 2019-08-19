@@ -51,7 +51,7 @@ def generate_condor_sh_file(start_date, end_date):
 def _parse_args():
     parser = argparse.ArgumentParser('To trigger the condor_submit',
                                      description="To set the number of jobs in the txt file.")
-    parser.add_argument('--queue', type=int, default='100',
+    parser.add_argument('--queue', type=int, default='128',
                         help="the number of jobs would be submitted to HTCondor cluster.")
     parser.add_argument('--start_date', type=str, required=True, help='the start date of historical stock prices.')
     parser.add_argument('--end_date', type=str, required=True, help='the end date of historical stock prices.')
