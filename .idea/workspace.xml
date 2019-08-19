@@ -23,11 +23,37 @@
               </provider>
             </entry>
           </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/startup-scripts/condor-master.sh">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/startup-scripts/condor-submit.sh">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
           <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/deploymentmanager/condor-cluster.yaml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="330">
+                  <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/deploymentmanager/condor.jinja.schema">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-435" />
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/script_generator_runner.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="371">
-                  <caret line="80" column="43" selection-start-line="80" selection-start-column="43" selection-end-line="80" selection-end-column="43" />
+                <state relative-caret-position="523">
+                  <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                   </folding>
@@ -134,7 +160,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/python.gitignore" />
-        <option value="$PROJECT_DIR$/deploymentmanager/condor-cluster.yaml" />
         <option value="$PROJECT_DIR$/Makefile" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/test_folder/task_randomwalk_process.sh" />
@@ -147,6 +172,7 @@
         <option value="$PROJECT_DIR$/htcondor/htcondor-submit-tasks" />
         <option value="$PROJECT_DIR$/model/randomwalk_multiprocess.py" />
         <option value="$PROJECT_DIR$/script_generator_runner.py" />
+        <option value="$PROJECT_DIR$/deploymentmanager/condor-cluster.yaml" />
       </list>
     </option>
   </component>
@@ -170,13 +196,7 @@
             <path>
               <item name="hpc-htc-demo-stocks" type="b2602c69:ProjectViewProjectNode" />
               <item name="hpc-htc-demo-stocks" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="hpc-htc-demo-stocks" type="b2602c69:ProjectViewProjectNode" />
-              <item name="hpc-htc-demo-stocks" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-              <item name="output_single_stock" type="462c0819:PsiDirectoryNode" />
+              <item name="deploymentmanager" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="hpc-htc-demo-stocks" type="b2602c69:ProjectViewProjectNode" />
@@ -187,16 +207,6 @@
               <item name="hpc-htc-demo-stocks" type="b2602c69:ProjectViewProjectNode" />
               <item name="hpc-htc-demo-stocks" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="hpc-htc-demo-stocks" type="b2602c69:ProjectViewProjectNode" />
-              <item name="hpc-htc-demo-stocks" type="462c0819:PsiDirectoryNode" />
-              <item name="startup-scripts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="hpc-htc-demo-stocks" type="b2602c69:ProjectViewProjectNode" />
-              <item name="hpc-htc-demo-stocks" type="462c0819:PsiDirectoryNode" />
-              <item name="venv" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -307,15 +317,7 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/readme.txt" />
-    <entry file="file://$PROJECT_DIR$/deploymentmanager/condor.jinja.schema">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-372" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/python.gitignore" />
-    <entry file="file://$PROJECT_DIR$/startup-scripts/condor-master.sh">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -326,16 +328,6 @@
             <caret line="116" column="45" selection-start-line="116" selection-start-column="45" selection-end-line="116" selection-end-column="45" />
           </first_editor>
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/startup-scripts/condor-submit.sh">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deploymentmanager/condor-cluster.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -475,13 +467,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/htcondor/task_randomwalk_process.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="99" selection-start-line="26" selection-start-column="99" selection-end-line="26" selection-end-column="99" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/htcondor/htcondor-submit-tasks">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -489,13 +474,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/htcondor/task_randomwalk_process.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="99" selection-start-line="26" selection-start-column="99" selection-end-line="26" selection-end-column="99" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/startup-scripts/condor-master.sh">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/startup-scripts/condor-submit.sh">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/script_generator_runner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="80" column="43" selection-start-line="80" selection-start-column="43" selection-end-line="80" selection-end-column="43" />
+        <state relative-caret-position="523">
+          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deploymentmanager/condor.jinja.schema">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-435" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deploymentmanager/condor-cluster.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
         </state>
       </provider>
     </entry>
