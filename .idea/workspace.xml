@@ -53,7 +53,7 @@
             <entry file="file://$PROJECT_DIR$/script_generator_runner.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="523">
-                  <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
+                  <caret line="59" selection-start-line="59" selection-end-line="59" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                   </folding>
@@ -490,7 +490,7 @@
     <entry file="file://$PROJECT_DIR$/script_generator_runner.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="523">
-          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
