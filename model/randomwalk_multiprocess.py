@@ -167,7 +167,7 @@ def run_pool(start_date, end_date, stock_symbols):
 def main():
     args = _parse_args()
     get_all_symbols_in_rows(rows=128)
-    run_pool(start_date=args.start_date, end_date=args.end_date)
+    run_pool(start_date=args.start_date, end_date=args.end_date, stock_symbols=args.stock_symbols_list)
 
 
 if __name__ == '__main__':

@@ -44,7 +44,7 @@ def generate_condor_sh_file(start_date, end_date):
                   '--stock_symbols_list ${stock_symbols_sequence} \n'
                   % (start_date, end_date))
         trp.write('CLOUDSDK_PYTHON=/usr/bin/python '
-                  'gsutil mv *.csv gs://hpc-htc-demo-stocks/stock_simulations_based_on_%s_%s/'
+                  'gsutil cp *.csv gs://hpc-htc-demo-stocks/stock_simulations_based_on_%s_%s/'
                   % (start_date, end_date))
     return True
 
