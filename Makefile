@@ -38,7 +38,7 @@ deleteimages:
 	-gcloud compute images delete --quiet condor-submit
 
 
-upload: data/nasdaq_symbols_all.csv 
+upload:
 ifeq ($(bucketname),)
 	@echo "to upload the datafile (make sure you first run make download to pull the data from quandl.  then rerun this command"
 	@echo "adding the gcs bucketname to create and push the data to."
@@ -46,7 +46,6 @@ ifeq ($(bucketname),)
 else 
 	@echo "using ${bucketname}"
 	-gsutil mb gs://${bucketname}
-	gsutil cp data/nasdaq_symbols_all.csv gs://${bucketname}/data/
 	gsutil cp model/* gs://${bucketname}/model/
 	gsutil cp *.py gs://${bucketname}/
 endif
@@ -70,8 +69,6 @@ else
 	@echo "it easier for you."
 	@echo "  - copying the model"
 	gcloud compute ssh condor-submit --command "gsutil cp gs://${bucketname}/model/* ." --zone us-east1-b
-	@echo "  - copying the datafiles"
-	gcloud compute ssh condor-submit --command "gsutil cp gs://${bucketname}/data/* ./" --zone us-east1-b
 	@echo "  - copying the entrance python file: script_generator_runner.py"
 	gcloud compute ssh condor-submit --command "gsutil cp gs://${bucketname}/script_generator_runner.py ." --zone us-east1-b
 	@echo "now just sshing"
