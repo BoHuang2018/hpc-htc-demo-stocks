@@ -65,8 +65,8 @@ def _get_data(company_symbol, historical_data, number_of_iteration=1000):
         data.append(price_list)
     return data
 
-
-def get_all_symbols_in_rows(rows=100, output_csv_name='nasdaq_symbols_in_rows.csv'):
+'''
+def get_all_symbols_in_rows(rows, output_csv_name='nasdaq_symbols_in_rows.csv'):
     all_nasdaq = web.get_nasdaq_symbols().index
     # total_number = len(all_nasdaq)
     # print(len(all_nasdaq))
@@ -80,7 +80,7 @@ def get_all_symbols_in_rows(rows=100, output_csv_name='nasdaq_symbols_in_rows.cs
             else:
                 csv_writer.writerow(list(all_nasdaq[-1*number_of_last_row:]))
     return True
-
+'''
 
 def _from_yahoo_api(symbol, start_date, end_date):
     """
@@ -119,7 +119,7 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
         if abs((raw_data.index[0] - pandas.Timestamp(start_date)).days) > 10:
             logger.info("Start date for {} is {} while start_date = {}, so skip this stock"
                         .format(company_symbol, raw_data.index[0], start_date))
-            with open(company_symbol + '_empty.csv', 'w') as csvfile:
+            with open(company_symbol + '_empty_1.csv', 'w') as csvfile:
                 # csv_writer = writer(csvfile)
                 csvfile.write("No content, because of the time interval issue.")
         else:
@@ -138,7 +138,7 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
     else:
         logger.info("Not access to historical price for {} between {} and {}, "
                     "please check Yahoo Finance manually".format(company_symbol, start_date, end_date))
-        with open(company_symbol + '_empty.csv', 'w') as csvfile:
+        with open(company_symbol + '_empty_2.csv', 'w') as csvfile:
             # csv_writer = csvfile.write(csvfile)
             csvfile.write("No content, because of no historical price in Yahoo.")
     del raw_data
@@ -146,7 +146,7 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
 
 
 def _parse_args():
-    parser = argparse.ArgumentParser('randomwalk_process',
+    parser = argparse.ArgumentParser('randomwalk_multiprocess',
                                      description='Monte-Carlo simulation of stock prices '
                                                  'behavior based on data from Yahoo')
     parser.add_argument('--start_date', type=str, default='2017-01-01',
@@ -160,6 +160,7 @@ def _parse_args():
 def run_pool(start_date, end_date, stock_symbols):
     stock_symbols_list = stock_symbols.split(',')
     print(len(stock_symbols_list))
+    print(stock_symbols_list)
     parameters_list = [(symbol, start_date, end_date) for symbol in stock_symbols_list]
     with Pool(4) as pool:
         pool.map(to_simulate_single_stock, parameters_list) # (function, list)
@@ -168,7 +169,7 @@ def run_pool(start_date, end_date, stock_symbols):
 
 def main():
     args = _parse_args()
-    get_all_symbols_in_rows(rows=128)
+    # get_all_symbols_in_rows(rows=128)
     run_pool(start_date=args.start_date, end_date=args.end_date, stock_symbols=args.stock_symbols_list)
 
 

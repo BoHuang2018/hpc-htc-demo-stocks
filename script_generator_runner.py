@@ -71,7 +71,7 @@ def get_all_symbols_in_rows(rows, output_csv_name='nasdaq_symbols_in_rows.csv'):
             if r < rows-1:
                 csv_writer.writerow(list(all_nasdaq[r * number_of_normal_rows: (r+1) * number_of_normal_rows]))
             else:
-                csv_writer.writerow(list(all_nasdaq[-1*number_of_last_row:]))
+                csv_writer.writerow(list(all_nasdaq[(-1 * number_of_last_row) : ]))
     return len(all_nasdaq)
 
 
@@ -89,7 +89,8 @@ def main():
         finished_jobs = \
             int(subprocess.check_output("gsutil du gs://hpc-htc-demo-stocks/stock_simulations_based_on_%s_%s/ | wc -l"
                                         % (args.start_date, args.end_date), shell=True))
-        time.sleep(0.5)
+        time.sleep(4)
+        print("total jobs : {}, finished jobs : {}".format(total_number_of_symbols, finished_jobs))
     condor_end_time = time.time()
     print("The queue has been finished, {} jobs by condor_submit, within {} seconds"
           .format(finished_jobs, condor_end_time-condor_start_time))

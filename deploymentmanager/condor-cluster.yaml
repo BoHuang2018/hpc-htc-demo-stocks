@@ -19,8 +19,8 @@ resources:
 - name: condor-cluster
   type: condor.jinja
   properties:
-    count: 2
-    pvmcount: 0
+    count: 0
+    pvmcount: 8
     zone: us-east1-b
     email: someone@somewhere.com
     instancetype: n1-standard-4
