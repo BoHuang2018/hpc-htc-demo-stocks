@@ -36,11 +36,12 @@ def generate_condor_sh_file(start_date, end_date):
         trp.write('#! /bin/bash \n')
         trp.write('index=$(($1 + 2)) \n')
         trp.write('stockfile=nasdaq_symbols_in_rows.csv \n')
-        trp.write('stock_symbols_sequence=$(awk "NR == ${index} {print; exit}" ${stockfile} | cut -d, -f1) \n')
+        # trp.write('stock_symbols_sequence=$(awk "NR == ${index} {print; exit}" ${stockfile} | cut -d, -f1) \n')
+        trp.write('stock_symbols_sequence=$(awk "NR == ${index} {print; exit}" ${stockfile}) \n')
         trp.write('export HOME=`pwd` \n')
         trp.write('chmod +x ./randomwalk_multiprocess.py \n')
         trp.write('./randomwalk_multiprocess.py --start_date %s --end_date %s '
-                  '--stock_symbols_sequence ${stock_symbols_sequence} \n'
+                  '--stock_symbols_list ${stock_symbols_sequence} \n'
                   % (start_date, end_date))
         trp.write('CLOUDSDK_PYTHON=/usr/bin/python '
                   'gsutil mv *.csv gs://hpc-htc-demo-stocks/stock_simulations_based_on_%s_%s/'
