@@ -119,7 +119,7 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
         if abs((raw_data.index[0] - pandas.Timestamp(start_date)).days) > 10:
             logger.info("Start date for {} is {} while start_date = {}, so skip this stock"
                         .format(company_symbol, raw_data.index[0], start_date))
-            with open(company_symbol + '_empty.csv', 'w') as csvfile:
+            with open(company_symbol + '_empty.csv', 'w', newline=) as csvfile:
                 csv_writer = csv.writer(csvfile)
                 csv_writer.writerow("No content, because of the time interval issue.")
         else:    
@@ -137,7 +137,7 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
     else:
         logger.info("Not access to historical price for {} between {} and {}, "
                     "please check Yahoo Finance manually".format(company_symbol, start_date, end_date))
-        with open(company_symbol + '_empty.csv', 'w') as csvfile:
+        with open(company_symbol + '_empty.csv', 'w', newline=) as csvfile:
             csv_writer = csvfile.write(csvfile)
             csv_writer.writerow("No content, because of no historical price in Yahoo.")
     del raw_data
@@ -158,6 +158,7 @@ def _parse_args():
 
 def run_pool(start_date, end_date, stock_symbols):
     stock_symbols_list = stock_symbols.split(',')
+    print(len(stock_symbols_list))
     parameters_list = [(symbol, start_date, end_date) for symbol in stock_symbols_list]
     with Pool(4) as pool:
         pool.map(to_simulate_single_stock, parameters_list) # (function, list)
