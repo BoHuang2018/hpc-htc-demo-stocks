@@ -119,7 +119,7 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
         if abs((raw_data.index[0] - pandas.Timestamp(start_date)).days) > 10:
             logger.info("Start date for {} is {} while start_date = {}, so skip this stock"
                         .format(company_symbol, raw_data.index[0], start_date))
-            with open(company_symbol + '_empty.csv', 'w', newline=) as csvfile:
+            with open(company_symbol + '_empty.csv', 'w', newline='') as csvfile:
                 csv_writer = csv.writer(csvfile)
                 csv_writer.writerow("No content, because of the time interval issue.")
         else:    
@@ -132,8 +132,9 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
                 for row in simulations:
                     csv_writer.writerow(row)
             # print("Get historical data from {} and simulation is done".format(company_symbol))
-            return True
             del simulations
+            return True
+
     else:
         logger.info("Not access to historical price for {} between {} and {}, "
                     "please check Yahoo Finance manually".format(company_symbol, start_date, end_date))
