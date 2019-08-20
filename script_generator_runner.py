@@ -34,7 +34,7 @@ def generate_condor_sh_file(start_date, end_date):
     """
     with open('task_randomwalk_process-app.sh', 'w') as trp:
         trp.write('#! /bin/bash \n')
-        trp.write('index=$(($1 + 2)) \n')
+        trp.write('index=$(($1)) \n')
         trp.write('stockfile=nasdaq_symbols_in_rows.csv \n')
         # trp.write('stock_symbols_sequence=$(awk "NR == ${index} {print; exit}" ${stockfile} | cut -d, -f1) \n')
         trp.write('stock_symbols_sequence=$(awk "NR == ${index} {print; exit}" ${stockfile}) \n')
@@ -90,7 +90,6 @@ def main():
             int(subprocess.check_output("gsutil du gs://hpc-htc-demo-stocks/stock_simulations_based_on_%s_%s/ | wc -l"
                                         % (args.start_date, args.end_date), shell=True))
         time.sleep(4)
-        print("total jobs : {}, finished jobs : {}".format(total_number_of_symbols, finished_jobs))
     condor_end_time = time.time()
     print("The queue has been finished, {} jobs by condor_submit, within {} seconds"
           .format(finished_jobs, condor_end_time-condor_start_time))
