@@ -134,6 +134,7 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
                     csv_writer.writerow(row)
             # print("Get historical data from {} and simulation is done".format(company_symbol))
             del simulations
+            del raw_data
             return True
     except (KeyError, TypeError, IndexError, web._utils.RemoteDataError) as err:
         logger.error(err)
@@ -142,7 +143,6 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
         with open(company_symbol + '_empty_2.csv', 'w') as csvfile:
             # csv_writer = csvfile.write(csvfile)
             csvfile.write("No content, because of no historical price in Yahoo.")
-    del raw_data
     return True
 
 

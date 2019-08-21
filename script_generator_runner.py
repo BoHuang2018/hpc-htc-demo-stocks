@@ -34,7 +34,7 @@ def generate_condor_sh_file(start_date, end_date):
     """
     with open('task_randomwalk_process-app.sh', 'w') as trp:
         trp.write('#! /bin/bash \n')
-        trp.write('index=$(($1)) \n')
+        trp.write('index=$(($1+1)) \n')
         trp.write('stockfile=nasdaq_symbols_in_rows.csv \n')
         # trp.write('stock_symbols_sequence=$(awk "NR == ${index} {print; exit}" ${stockfile} | cut -d, -f1) \n')
         trp.write('stock_symbols_sequence=$(awk "NR == ${index} {print; exit}" ${stockfile}) \n')
