@@ -61,8 +61,6 @@ def _parse_args():
 
 def get_all_symbols_in_rows(rows, output_csv_name='nasdaq_symbols_in_rows.csv'):
     all_nasdaq = web.get_nasdaq_symbols().index
-    # total_number = len(all_nasdaq)
-    # print(len(all_nasdaq))
     number_of_normal_rows = len(all_nasdaq) // (rows-1)
     number_of_last_row = len(all_nasdaq) % (rows-1)
     with open(output_csv_name, 'w', newline='') as csv_file:
@@ -89,7 +87,7 @@ def main():
         finished_jobs = \
             int(subprocess.check_output("gsutil du gs://hpc-htc-demo-stocks/stock_simulations_based_on_%s_%s/ | wc -l"
                                         % (args.start_date, args.end_date), shell=True))
-        time.sleep(4)
+        time.sleep(0.1)
     condor_end_time = time.time()
     print("The queue has been finished, {} jobs by condor_submit, within {} seconds"
           .format(finished_jobs, condor_end_time-condor_start_time))

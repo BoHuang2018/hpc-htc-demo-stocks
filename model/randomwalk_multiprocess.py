@@ -21,17 +21,6 @@ logger = logging.getLogger(__name__)
 TRADING_DAYS = 252  # Number of trading days on stock, i.e. time interval of simulation
 
 
-def _write_csv_stdout(self):
-    """
-    To write the simulation-result into a csv file with sys.stdout
-    When we run this program with HTCondor environment, we would use this function
-    :return:
-    """
-    csv_writer = csv.writer(sys.stdout)
-    for row in self.data:
-        csv_writer.writerow(row)
-
-
 def _get_data(company_symbol, historical_data, number_of_iteration=1000):
     """
     Do the random walk process in monte-carlo simulation.
@@ -65,42 +54,6 @@ def _get_data(company_symbol, historical_data, number_of_iteration=1000):
         data.append(price_list)
     return data
 
-'''
-def get_all_symbols_in_rows(rows, output_csv_name='nasdaq_symbols_in_rows.csv'):
-    all_nasdaq = web.get_nasdaq_symbols().index
-    # total_number = len(all_nasdaq)
-    # print(len(all_nasdaq))
-    number_of_normal_rows = len(all_nasdaq) // (rows-1)
-    number_of_last_row = len(all_nasdaq) % (rows-1)
-    with open(output_csv_name, 'w') as csv_file:
-        csv_writer = csv.writer(csv_file)
-        for r in range(rows):
-            if r < rows-1:
-                csv_writer.writerow(list(all_nasdaq[r * number_of_normal_rows: (r+1) * number_of_normal_rows]))
-            else:
-                csv_writer.writerow(list(all_nasdaq[-1*number_of_last_row:]))
-    return True
-
-
-def _from_yahoo_api(symbol, start_date, end_date):
-    """
-    Get the close price data from yahoo finance api.
-    The prices will be transferred to self._raw_data
-    :param symbol: String. Item in self.symbols_for_simulation
-    :param start_date: String. Like '2017-01-01'
-    :param end_date: String.   Like '2019-01-01'
-    :return: True
-    """
-    try:
-        df = web.get_data_yahoo(symbol, start=start_date, end=end_date)
-        return df
-    except (KeyError, TypeError, IndexError, web._utils.RemoteDataError) as err:
-
-        # logger.error(err)
-        pass
-    return None
-'''
-
 
 def to_simulate_single_stock(company_symbol_start_date_end_date):
     """
@@ -113,8 +66,6 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
     company_symbol = company_symbol_start_date_end_date[0]
     start_date = company_symbol_start_date_end_date[1]
     end_date = company_symbol_start_date_end_date[2]
-    # raw_data = _from_yahoo_api(symbol=company_symbol, start_date=start_date, end_date=end_date)
-
     try:
         raw_data = web.get_data_yahoo(company_symbol, start=start_date, end=end_date)
         if abs((raw_data.index[0] - pandas.Timestamp(start_date)).days) > 10:
@@ -125,14 +76,10 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
                 csvfile.write("No content, because of the time interval issue.")
         else:
             simulations = _get_data(company_symbol=company_symbol, historical_data=raw_data, number_of_iteration=1000)
-            # csv_writer = csv.writer(sys.stdout)
-            # for row in simulations:
-            #     csv_writer.writerow(row)
             with open(company_symbol + '.csv', 'w', newline='') as csvfile:
                 csv_writer = csv.writer(csvfile)
                 for row in simulations:
                     csv_writer.writerow(row)
-            # print("Get historical data from {} and simulation is done".format(company_symbol))
             del simulations
             del raw_data
             return True
@@ -141,7 +88,6 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
         logger.info("Not access to historical price for {} between {} and {}, "
                     "please check Yahoo Finance manually".format(company_symbol, start_date, end_date))
         with open(company_symbol + '_empty_2.csv', 'w') as csvfile:
-            # csv_writer = csvfile.write(csvfile)
             csvfile.write("No content, because of no historical price in Yahoo.")
     return True
 
@@ -165,7 +111,6 @@ def run_pool(start_date, end_date, stock_symbols):
     print(len(stock_symbols_list))
     print(stock_symbols_list)
     parameters_list = [(symbol, start_date, end_date) for symbol in stock_symbols_list]
-    print(parameters_list)
     with Pool(4) as pool:
         pool.map(to_simulate_single_stock, parameters_list) # (function, list)
     return True
@@ -173,7 +118,6 @@ def run_pool(start_date, end_date, stock_symbols):
 
 def main():
     args = _parse_args()
-    # get_all_symbols_in_rows(rows=128)
     run_pool(start_date=args.start_date, end_date=args.end_date, stock_symbols=args.stock_symbols_list)
 
 
