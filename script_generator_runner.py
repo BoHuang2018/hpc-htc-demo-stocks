@@ -65,7 +65,7 @@ def get_all_symbols_in_rows(rows, output_csv_name='nasdaq_symbols_in_rows.csv'):
     # print(len(all_nasdaq))
     number_of_normal_rows = len(all_nasdaq) // (rows-1)
     number_of_last_row = len(all_nasdaq) % (rows-1)
-    with open(output_csv_name, 'w') as csv_file:
+    with open(output_csv_name, 'w', newline='') as csv_file:
         csv_writer = csv.writer(csv_file)
         for r in range(rows):
             if r < rows-1:

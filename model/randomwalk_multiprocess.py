@@ -80,7 +80,7 @@ def get_all_symbols_in_rows(rows, output_csv_name='nasdaq_symbols_in_rows.csv'):
             else:
                 csv_writer.writerow(list(all_nasdaq[-1*number_of_last_row:]))
     return True
-'''
+
 
 def _from_yahoo_api(symbol, start_date, end_date):
     """
@@ -95,9 +95,11 @@ def _from_yahoo_api(symbol, start_date, end_date):
         df = web.get_data_yahoo(symbol, start=start_date, end=end_date)
         return df
     except (KeyError, TypeError, IndexError, web._utils.RemoteDataError) as err:
-        logger.error(err)
+
+        # logger.error(err)
         pass
     return None
+'''
 
 
 def to_simulate_single_stock(company_symbol_start_date_end_date):
@@ -111,11 +113,10 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
     company_symbol = company_symbol_start_date_end_date[0]
     start_date = company_symbol_start_date_end_date[1]
     end_date = company_symbol_start_date_end_date[2]
-    raw_data = _from_yahoo_api(symbol=company_symbol, start_date=start_date, end_date=end_date)
-    if not isinstance(raw_data, type(None)):
+    # raw_data = _from_yahoo_api(symbol=company_symbol, start_date=start_date, end_date=end_date)
 
-        # if there are ten days between the historical start-date and the parameter, start_date, 
-        # then we ignore this stock
+    try:
+        raw_data = web.get_data_yahoo(company_symbol, start=start_date, end=end_date)
         if abs((raw_data.index[0] - pandas.Timestamp(start_date)).days) > 10:
             logger.info("Start date for {} is {} while start_date = {}, so skip this stock"
                         .format(company_symbol, raw_data.index[0], start_date))
@@ -134,8 +135,8 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
             # print("Get historical data from {} and simulation is done".format(company_symbol))
             del simulations
             return True
-
-    else:
+    except (KeyError, TypeError, IndexError, web._utils.RemoteDataError) as err:
+        logger.error(err)
         logger.info("Not access to historical price for {} between {} and {}, "
                     "please check Yahoo Finance manually".format(company_symbol, start_date, end_date))
         with open(company_symbol + '_empty_2.csv', 'w') as csvfile:
@@ -159,9 +160,12 @@ def _parse_args():
 
 def run_pool(start_date, end_date, stock_symbols):
     stock_symbols_list = stock_symbols.split(',')
+    # if '\r' in stock_symbols_list[-1]:
+    stock_symbols_list[-1] = stock_symbols_list[-1][:-1] if '\r' in stock_symbols_list[-1] else stock_symbols_list[-1]
     print(len(stock_symbols_list))
     print(stock_symbols_list)
     parameters_list = [(symbol, start_date, end_date) for symbol in stock_symbols_list]
+    print(parameters_list)
     with Pool(4) as pool:
         pool.map(to_simulate_single_stock, parameters_list) # (function, list)
     return True
