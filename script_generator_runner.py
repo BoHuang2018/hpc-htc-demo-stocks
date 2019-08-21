@@ -44,7 +44,7 @@ def generate_condor_sh_file(start_date, end_date):
                   '--stock_symbols_list ${stock_symbols_sequence} \n'
                   % (start_date, end_date))
         trp.write('CLOUDSDK_PYTHON=/usr/bin/python '
-                  'gsutil cp *.csv gs://hpc-htc-demo-stocks/stock_simulations_based_on_%s_%s/'
+                  'gsutil -m cp *.csv gs://hpc-htc-demo-stocks/stock_simulations_based_on_%s_%s/'
                   % (start_date, end_date))
     return True
 
@@ -87,10 +87,10 @@ def main():
         finished_jobs = \
             int(subprocess.check_output("gsutil du gs://hpc-htc-demo-stocks/stock_simulations_based_on_%s_%s/ | wc -l"
                                         % (args.start_date, args.end_date), shell=True))
-        time.sleep(0.1)
+        time.sleep(0.05)
     condor_end_time = time.time()
-    print("The queue has been finished, {} jobs by condor_submit, within {} seconds"
-          .format(finished_jobs, condor_end_time-condor_start_time))
+    print("The queue of {} has been finished, {} csv-files in Cloud Storage. It took {} seconds."
+          .format(args.queue, finished_jobs, condor_end_time-condor_start_time))
 
 
 if __name__ == '__main__':
