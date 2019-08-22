@@ -1,5 +1,5 @@
 # hpc-htc-demo-stocks
-#### _A demo using high-performance-computing in high-throughput-computing_
+## A demo to build high-throughput-computing cluster on Google Cloud Platform
 This repository presents a lightweight demo of HTCondor cluster on GCP (Google Cloud Platform). Such a cluster can be applied 
 to many fields' work. We do only stocks price simulation with random walk process and Monto-Carlo in this repository. 
 
@@ -8,24 +8,21 @@ This repository got expired by an example from Google Cloud Solution (link: http
 which deploys a high-throughput-computing (htc) cluster with HTCondor and do simulation for four stocks (AMZN, GOOG, FB, NLFX) with random walk process
 and Monte-Carlo (1000 simulations for each stock).
 
-#### To present the power of HTC-cluster on GCP, we do change on the following aspects:
-
-1. ##### Increase the subjects of simulation to thousands stocks (all companies listed on Nasdaq)
-   We would go through all companies listed on Nasdaq, the current amount is 8851. For each stock, it will do 1000 random-walk 
+### What we will do
+1. #### Scale up to thousands stocks (all companies listed on Nasdaq)
+   We would go through all companies listed on Nasdaq, the current amount is 8856 (updated per day). For each stock, it will do 1000 random-walk 
    simulations, it says near nine million simulations all together.
-   By my Macbook pro (2.8 GHz Core i7, 16 GB RAM), the whole process takes over three hours. On GCP, we will build a HTC-cluster consists of 
-   34 virtual-machines, and shrink the working time to around 6 minutes. 
+   By my Macbook pro (2.8 GHz Core i7, 16 GB RAM), the whole process takes over three hours. We will see the HTC cluster on GCP does such work in just minutes. 
    
-2. ##### Download the historical data by given time interval instead of using stored data
-   The original example use a fixed historical data with fixed time interval. This repository allows each working machine in the cluster
-   to call the API, pandas_datareader, to downloaded the historical stock prices from Yahoo. The time interval would be set by parameters 
-   "start_date" and "end_date".
-
-3. ##### Size of the cluster is adjustable
-   The original example fixes size of the HTC-cluster as six virtual machines: one central manager, one jobs submiter and four workers. 
-   In this example, users can set number of the machines. Though, please estimate cost of the machines. For example, I used 400 predefined n1-standard-1 virtual machines and 400 preemptible n1-standard-1 virtual machines. The cluster took around 3 minutes to do simulation for all 8851 companies listed on Nasdaq, current price for 
+2. #### Adjust size of the cluster
+   The original example fixes size of the HTC-cluster as six virtual machines: one central manager, one jobs submitter and four workers. 
+   In this repository, users can set number of the machines. Though, please estimate cost of the machines. For example, I used 400 predefined n1-standard-1 virtual machines and 400 preemptible n1-standard-1 virtual machines. The cluster took around 3 minutes to do simulation for all 8851 companies listed on Nasdaq, current price for 
    n1-standard-1 is 0.0475$ and 0.01$ per machine per hour for predefined and preemptible respectively, then cost for the 3 minutes work was 1.15$ (= 3 x 400 / 60 x (0.0475 + 0.01)), in addition, it costed money for used RAM of those machines. 
-    
+
+3. #### Speed further up by parallel computing 
+   We can speed further up by using more VMs and more advanced VMs. For example, it will run faster if it allocates n1-standard-4 instead of n1-standard-1. But the cost will fly up. 
+   Parallel computing helps. Since we use n1-standard-4 VMs, we should run computation in 4 parallel processes. In my recent test, it allocated eight n1-standard-4 VMs, did 4-processing in each VMs. It took only 290 seconds. 
+   While it took 360 seconds with 32 n1-standard-4 VMs but single processing per machine.        
    
 ### Architecture and process of this reporsitory
 ![architecture and process](https://github.com/BoHuang2018/hpc-htc-demo-stocks/blob/master/HPC-HTC-DEMO-STOCKS.png)
