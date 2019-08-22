@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
-import sys
+"""
+This program implements such a process : scrape historical price --> Monte-Carlo simulation --> write in CSV file
+    for a sequence of stocks by multiprocessing (Pool).
+There is no crossfire between processes, i.e. each process will do all simulation work assigned to it.
+This program will be used on GCP virtual machines through HTCondor.
+
+The following functions will be called in this order:
+    main() --> _parse_args() --> run_pool() --> to_simulate_single_stock() --> _get_data()
+"""
 import argparse
 import pandas_datareader as web
 import pandas
@@ -57,9 +65,18 @@ def _get_data(company_symbol, historical_data, number_of_iteration=1000):
 
 def to_simulate_single_stock(company_symbol_start_date_end_date):
     """
-    Do monte-carlo simulation for a single given stock symbol, self.company,
-    have historical prices for every trading day in the given
-    time interval, and generate a csv for the stock. Path for the csv file is self.output_path_single
+    Do monte-carlo simulation for a single stock symbol, self.company, have historical prices
+    for every trading day in the given time interval, and generate a csv for the stock.
+    Path for the csv file is the current folder.
+    If the API cannot offer available data with given time-interval and stock symbol, it would write csv with
+    '_empty_1/2' in the name:
+          _empty_1 : the historical data is not available because of the time interval
+          _empty_2 : the historical data is not available because of the stock symbol (not available on Yahoo finance)
+    The reason to generate empty csv is to make the number of csv files in Cloud Storage bucket be same as the
+    number of stocks in the Nasdaq Company List. When the two numbers are same, the system will send a report that all
+    simulations are done.
+
+    This reporting mechanism is a complement for HTCondor has no programmatic reporting function.
     :param: company_symbol_start_date_end_date: Tuple of Strings. Like ('AAPL', '2017-01-01', '2019-01-01')
     :return:
     """
@@ -68,7 +85,9 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
     end_date = company_symbol_start_date_end_date[2]
     try:
         raw_data = web.get_data_yahoo(company_symbol, start=start_date, end=end_date)
-        if abs((raw_data.index[0] - pandas.Timestamp(start_date)).days) > 10:
+        # If the earliest date of historical price is three days away from the given start_date, we will assume the
+        # historical data is not available, and generate an empty csv file
+        if abs((raw_data.index[0] - pandas.Timestamp(start_date)).days) > 3:
             logger.info("Start date for {} is {} while start_date = {}, so skip this stock"
                         .format(company_symbol, raw_data.index[0], start_date))
             with open(company_symbol + '_empty_1.csv', 'w') as csvfile:
@@ -80,13 +99,13 @@ def to_simulate_single_stock(company_symbol_start_date_end_date):
                 csv_writer = csv.writer(csvfile)
                 for row in simulations:
                     csv_writer.writerow(row)
-            del simulations
+            del simulations  # To save RAM
             del raw_data
             return True
     except (KeyError, TypeError, IndexError, web._utils.RemoteDataError) as err:
         logger.error(err)
-        logger.info("Not access to historical price for {} between {} and {}, "
-                    "please check Yahoo Finance manually".format(company_symbol, start_date, end_date))
+        # Sometimes, a stock symbol is not available anymore, but has not been deleted from Nasdaq Company List
+        logger.info("Not access to historical price for {}, please check Yahoo Finance manually".format(company_symbol))
         with open(company_symbol + '_empty_2.csv', 'w') as csvfile:
             csvfile.write("No content, because of no historical price in Yahoo.")
     return True
@@ -108,8 +127,10 @@ def run_pool(start_date, end_date, stock_symbols):
     stock_symbols_list = stock_symbols.split(',')
     # if '\r' in stock_symbols_list[-1]:
     stock_symbols_list[-1] = stock_symbols_list[-1][:-1] if '\r' in stock_symbols_list[-1] else stock_symbols_list[-1]
+    # print something in the out.* file in condor-submit machine, easy to troubleshoot
     print(len(stock_symbols_list))
     print(stock_symbols_list)
+    # organize the parameters for multiprocessing
     parameters_list = [(symbol, start_date, end_date) for symbol in stock_symbols_list]
     with Pool(4) as pool:
         pool.map(to_simulate_single_stock, parameters_list) # (function, list)
