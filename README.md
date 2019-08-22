@@ -55,31 +55,30 @@ In the following steps, it assumes that we work on the Cloud Shell.
 
 #### 1. Migrate the files to Cloud Shell
 1. Grab the whole project from GitHub : 
+
    `user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git`
    
    Or,
    
-   `user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git`
+   `user_name@cloudshell:~ (your project)$ git clone https://github.com/avalonsolutions/avalonx-stockpriceprediction.git`
    
 2. Move into this repository's folder, we will run some 'make'-command :
 
-   > user_name@cloudshell:~ (your project)$ cd hpc-htc-demo-stocks
+   `$ cd hpc-htc-demo-stocks`
+
+   Or,
+   
+   `$ cd avalonx-stockpriceprediction`
 
 3. Build bucket in Cloud Storage and store files :
 
-   > user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make upload bucketname=hpc-htc-demo-stocks
+    `$ make upload bucketname=hpc-htc-demo-stocks`
        
-   The third command involves line 41~52 in Makefile. Let's go through the key commands in that block
-   1. gsutil mb gs://${bucketname}  # make a bucket with the given name in Cloud Storage
-   2. gsutil cp source-path gs://destination-path  # copy the files to the bucket 
-   
-   Note: 'hpc-htc-demo-stocks' is a fixed name in this repository, type-error leads to other errors.
-   
 #### 2. Build Virtual Machine Images and create cluster
 The process to build images is : create instance (virtual machines) --> stop instance --> create image --> delete instance
 The whole process can be done by the following command: 
-    
-   > user_name@cloudshell:~ (your project)$ make createimages
+
+    `$ make createimages`
     
 The above simple command calls line 8~32 in Makefile. Let's look at some key points:
 
@@ -90,8 +89,8 @@ The above simple command calls line 8~32 in Makefile. Let's look at some key poi
 
 2. --metadata-from-file startup-script=startup-scripts/$@.sh
    
-   This uses the startup-files to drive vitual machine to do something once it boots up. In this case, every time we create
-   the HTC-cluster, all vitural machines of the cluster will do something. For example, in the file /startup-scripts/condor-compute.sh,
+   This uses the startup-files to drive virtual machine to do something once it boots up. In this case, every time we create
+   the HTC-cluster, all virtual machines of the cluster will install the tools we need. For example, in the file /startup-scripts/condor-compute.sh,
    we can see 
    
    1. sudo apt install python3-pip -y  # install pip 
@@ -100,7 +99,7 @@ The above simple command calls line 8~32 in Makefile. Let's look at some key poi
 3. This block would be gone through three times, because we need to build images for central manager machine (condor-master),
    submitter machine (condor-submit) and worker machine (condor-compute) individually. 
        
-   After the images are ready, we can create the HTC-cluster by this command :
+After the images are ready, we can create the HTC-cluster by this command :
        
    >    user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make createcluster
        
