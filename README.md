@@ -28,31 +28,37 @@ and Monte-Carlo (1000 simulations for each stock).
 ![architecture and process](https://github.com/BoHuang2018/hpc-htc-demo-stocks/blob/master/HPC-HTC-DEMO-STOCKS.png)
 The above image shows the architecture of the HTC-cluster and its working process. Let's go through it block by block from left to right. 
 
-##### Prepare Storage Bucket and VM-images
-For simplicity, we store all relevant code and files in Cloud Storage. It facilitates invoking the whole project across machines connected to Internet. We would build reusable virtual machines images and leave them on Google Cloud Platform. It would be very easy to create the HTC-cluster when we need it, and destroy it after the work to stop money counting. We would create three images for condor-master, condor-submit and condor-compute respectively. 
+#### Prepare Storage Bucket and VM-images
+All relevant code and simulation results will be stored in Cloud Storage. We would build a bucket in Cloud Storage for this project.
+We would build reusable virtual machines images and leave them on Google Cloud Platform. It would be very easy to create the HTC-cluster when we need it, and destroy it after the work to stop money counting. 
 
-##### Deployment HTCondor-cluster
-With the prepared virtual machine images, make-file, yaml-files and .sh files, the cluster can be created by one line of command. The cluster consists of one central manager machine (condor-master), one submiter machine (condor-submit) and several worker machines (condor-compute). What the manager machine would do is invisible and out of our operation. Once we trigger the cluster with a sequence of jobs, the submiter machine would distribute the jobs to worker machines and the manager would cover the scheduling things. If some of the workers are stuck or lie down, the relevant jobs will be rescheduled to other workers by the manager machine.
+#### Deployment HTCondor-cluster
+With the prepared virtual machine images and coding files, the HTConder-cluster can be created by one line of command. 
+This cluster consists of one central manager machine (condor-master), one submitter machine (condor-submit) and several worker machines (condor-compute). 
 
-##### Model work in each condor-compute
-This block is independent of the HTC-cluster, i.e. we can put other models in this block to apply the cluster to other task. At last, we upload the simulation results to Cloud Storage waiting for further process. 
+Once we trigger the cluster, submitter machine will distribute the jobs to worker machines and the manager would cover the scheduling things. If some of the workers are stuck or lie down, the relevant jobs will be rescheduled to other workers by the manager machine.
 
+#### Model work in each condor-compute
+Each worker machine will run the assigned codes with assigned data, deliver results to Cloud Storage. 
 
 ### Step by Step Implementation 
 Now let's implement this repository step by step. The blocks in gray is what we will do with the Cloud Shell's terminal. 
 
 #### 0. Before you start
-Because we will deploy the HTC-cluster on GCP, please make sure that you have created project and enabled billing on Google Cloud Platform. 
+First of all, please make sure that you have created project and enabled billing on Google Cloud Platform. 
 
-We highly recommend to use GCP's Cloud Shell with Linux as your platform. Because we have wrappered many command-line operations in Make file, OSX is not a good choise. Please install Cloud-SDK into your own Linux system if you would not use GCP's Cloud Shell. 
+We highly recommend to use GCP's Cloud Shell with Linux as your platform. 
+Please install Cloud-SDK into your own Linux system if you would not use GCP's Cloud Shell. 
+OSX is not a good choice because of the Makefile. 
 
-In the following content, it assumes that we work on the Cloud Shell.
+In the following steps, it assumes that we work on the Cloud Shell.
 
 #### 1. Migrate the files to Cloud Shell
 1. Grab the whole project from GitHub : 
-
-   > user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git
-
+   `user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git`
+   Or,
+   `user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git`
+   
 2. Move into this repository's folder, we will run some 'make'-command :
 
    > user_name@cloudshell:~ (your project)$ cd hpc-htc-demo-stocks
