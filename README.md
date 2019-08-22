@@ -56,7 +56,9 @@ In the following steps, it assumes that we work on the Cloud Shell.
 #### 1. Migrate the files to Cloud Shell
 1. Grab the whole project from GitHub : 
    `user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git`
+   
    Or,
+   
    `user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git`
    
 2. Move into this repository's folder, we will run some 'make'-command :
