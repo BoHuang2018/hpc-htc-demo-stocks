@@ -1,7 +1,7 @@
 # hpc-htc-demo-stocks
 ## A demo to build high-throughput-computing cluster on Google Cloud Platform
 This repository presents a lightweight demo of HTCondor cluster on GCP (Google Cloud Platform). Such a cluster can be applied 
-to many fields' work. We do only stocks price simulation with random walk process and Monto-Carlo in this repository. 
+to many fields' work. We do only stocks price simulation with random walk process and Monte-Carlo in this repository. 
 
 ### Background 
 This repository got expired by an example from Google Cloud Solution (link: https://cloud.google.com/solutions/analyzing-portfolio-risk-using-htcondor-and-compute-engine), 
@@ -54,7 +54,7 @@ OSX is not a good choice because of the Makefile.
 In the following steps, it assumes that we work on the Cloud Shell.
 
 #### 1. Migrate the files to Cloud Shell
-1. Grab the whole project from GitHub : 
+1.1  Grab the whole project from GitHub : 
 
    `user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git`
    
@@ -62,7 +62,7 @@ In the following steps, it assumes that we work on the Cloud Shell.
    
    `user_name@cloudshell:~ (your project)$ git clone https://github.com/avalonsolutions/avalonx-stockpriceprediction.git`
    
-2. Move into this repository's folder, we will run some 'make'-command :
+1.2  Move into this repository's folder, we will run some 'make'-command :
 
    `$ cd hpc-htc-demo-stocks`
 
@@ -70,66 +70,36 @@ In the following steps, it assumes that we work on the Cloud Shell.
    
    `$ cd avalonx-stockpriceprediction`
 
-3. Build bucket in Cloud Storage and store files :
+#####1.3  Build bucket in Cloud Storage and transport files there :
 
-    `$ make upload bucketname=hpc-htc-demo-stocks`
+   `$ make upload bucketname=hpc-htc-demo-stocks`
        
+
+
 #### 2. Build Virtual Machine Images and create cluster
-The process to build images is : create instance (virtual machines) --> stop instance --> create image --> delete instance
-The whole process can be done by the following command: 
 
-    `$ make createimages`
-    
-The above simple command calls line 8~32 in Makefile. Let's look at some key points:
-
-1. --image debian-9-stretch-v20190729
+#####2.1 Build images for manager machine, submitter machine and worker machine: 
    
-   We use the newest verison of debian-9, because the old versions (2018) does not support the package 'pandas_datareader' which
-   would be used to grab historical data from Yahoo.
+   `$ make createimages`
 
-2. --metadata-from-file startup-script=startup-scripts/$@.sh
-   
-   This uses the startup-files to drive virtual machine to do something once it boots up. In this case, every time we create
-   the HTC-cluster, all virtual machines of the cluster will install the tools we need. For example, in the file /startup-scripts/condor-compute.sh,
-   we can see 
-   
-   1. sudo apt install python3-pip -y  # install pip 
-   2. pip3 install pandas-datareader   # install package pandas-datareader 
+2.2 Create the HTC-cluster:
 
-3. This block would be gone through three times, because we need to build images for central manager machine (condor-master),
-   submitter machine (condor-submit) and worker machine (condor-compute) individually. 
-       
-After the images are ready, we can create the HTC-cluster by this command :
-       
-   >    user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make createcluster
-       
-   We can see what stay behind is the .jinja files and .yaml files in /deplaymentmanager. The files are using the Google's Cloud Deployment Manager. 
-    
+   `$ make createcluster`
+   
 Note the "properties" in the .yaml file (condor-cluster.yaml), we can increase the number of "count" (number of predefined virtual machines)
 and "pvmcount" (number of preemptible virtual machines) to hundreds and even thousands. Please estimate the
 cost before you use those big numbers. 
 
-Now we use 12 as 'count' and 20 as 'pvmcount', and the 'instancetype' is 'n1-standard-4'. 
-It says we will use 12 predefinded virtual machines and 20 preemptible virtual machines in the type of n1-standard-4. 
-The total number of virtual machines would be 34, because we need one for condor-master and one for condor-submit.
+Now we set 0 as 'count' and 8 as 'pvmcount', and the 'instancetype' is 'n1-standard-4'. 
+It says we will use only 8 preemptible virtual machines in the type of n1-standard-4. 
+The total number of virtual machines would be 10, because we need one for condor-master and one for condor-submit.
     
 
 #### 3. Let the HTC-cluster work for you.     
 
 Now your high-throughput-computing cluster is ready, it's time to run it. 
 
-To get more intuitive control, you can load to the condor-submit's terminal by this command
 
-   user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b
-
-Then the terminal would become like this:
-
-   user_name@condor-submit:~$ 
-
-Let's write 'exit' and come back to our Cloud Shell's terminal:
-    
-   user_name@cloudshell:~/hpc-htc-demo-stocks (project)$
-    
 As we have mentioned above, we need to trigger the condor-submit, then it would submit the long sequence of simulation 
 jobs to the condor-compute machines. Before we trigger it, we need to transport the necessary files from Storage to 
 condor-submit's disk: 
