@@ -70,7 +70,7 @@ In the following steps, it assumes that we work on the Cloud Shell.
    
    `$ cd avalonx-stockpriceprediction`
 
-#####1.3  Build bucket in Cloud Storage and transport files there :
+##### 1.3  Build bucket in Cloud Storage and transport files there :
 
    `$ make upload bucketname=hpc-htc-demo-stocks`
        
@@ -78,7 +78,7 @@ In the following steps, it assumes that we work on the Cloud Shell.
 
 #### 2. Build Virtual Machine Images and create cluster
 
-#####2.1 Build images for manager machine, submitter machine and worker machine: 
+##### 2.1 Build images for manager machine, submitter machine and worker machine: 
    
    `$ make createimages`
 
