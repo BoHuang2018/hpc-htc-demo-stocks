@@ -54,7 +54,7 @@ OSX is not a good choice because of the Makefile.
 In the following steps, it assumes that we work on the Cloud Shell.
 
 #### 1. Migrate the files to Cloud Shell
-1.1  Grab the whole project from GitHub : 
+##### 1.1  Grab the whole project from GitHub : 
 
    `user_name@cloudshell:~ (your project)$ git clone https://github.com/BoHuang2018/hpc-htc-demo-stocks.git`
    
@@ -62,7 +62,7 @@ In the following steps, it assumes that we work on the Cloud Shell.
    
    `user_name@cloudshell:~ (your project)$ git clone https://github.com/avalonsolutions/avalonx-stockpriceprediction.git`
    
-1.2  Move into this repository's folder, we will run some 'make'-command :
+##### 1.2  Move into this repository's folder, we will run some 'make'-command :
 
    `$ cd hpc-htc-demo-stocks`
 
@@ -82,7 +82,7 @@ In the following steps, it assumes that we work on the Cloud Shell.
    
    `$ make createimages`
 
-2.2 Create the HTC-cluster:
+##### 2.2 Create the HTC-cluster:
 
    `$ make createcluster`
    
@@ -97,18 +97,15 @@ The total number of virtual machines would be 10, because we need one for condor
 
 #### 3. Let the HTC-cluster work for you.     
 
-Now your high-throughput-computing cluster is ready, it's time to run it. 
+Now the high-throughput-computing cluster is ready, it's time to run it. 
 
+##### 3.1 Transport the necessary files from Storage to condor-submit's disk: 
 
-As we have mentioned above, we need to trigger the condor-submit, then it would submit the long sequence of simulation 
-jobs to the condor-compute machines. Before we trigger it, we need to transport the necessary files from Storage to 
-condor-submit's disk: 
+   `$ make ssh bucketname=hpc-htc-demo-stocks`
     
-   > user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ make ssh bucketname=hpc-htc-demo-stocks
+##### 3.2 Trigger the condor-submit:
     
-Then we can trigger the condor-submit:
-
-   > user_name@cloudshell:~/hpc-htc-demo-stocks (project)$ gcloud compute ssh condor-submit --zone us-east1-b --command "python3 script_generator_runner.py --start_date=2017-06-01 --end_date=2019-06-01"
+   `$ gcloud compute ssh condor-submit --zone us-east1-b --command "python3 script_generator_runner.py --start_date=2017-06-01 --end_date=2019-06-01"`
 
 In the above line, we choose the historical stock prices from 2017-06-01 to 2019-06-01. The terminal would print like 
 
