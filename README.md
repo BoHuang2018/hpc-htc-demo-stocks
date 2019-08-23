@@ -22,7 +22,9 @@ and Monte-Carlo (1000 simulations for each stock).
 3. #### Speed further up by parallel computing 
    We can speed further up by using more VMs and more advanced VMs. For example, it will run faster if it allocates n1-standard-4 instead of n1-standard-1. But the cost will fly up. 
    Parallel computing helps. Since we use n1-standard-4 VMs, we should run computation in 4 parallel processes. In my recent test, it allocated eight n1-standard-4 VMs, did 4-processing in each VMs. It took only 290 seconds. 
-   While it took 360 seconds with 32 n1-standard-4 VMs but single processing per machine.        
+   While it took 360 seconds with 32 n1-standard-4 VMs but single processing per machine.  
+   
+   If you are interested in the comparison between HTC-cluster with and without parallel computing. Please go through this https://medium.com/@bo.huang_61578/high-through-put-cluster-with-parallel-computing-on-google-cloud-platform-5c2f54d3212e?source=friends_link&sk=91d07789afa1f5a0bf1fce264addd9a8      
    
 ### Architecture and process of this reporsitory
 ![architecture and process](https://github.com/BoHuang2018/hpc-htc-demo-stocks/blob/master/HPC-HTC-DEMO-STOCKS.png)
